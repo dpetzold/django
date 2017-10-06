@@ -220,6 +220,11 @@ class BaseForm(object):
                 if css_classes:
                     html_class_attr = ' class="%s"' % css_classes
 
+                if hasattr(bf, 'html_attrs') and callable(bf.html_attrs):
+                    html_class_attr += ' '.join(
+                        ['{}="{}"'.format(name, value) for name, value in bf.html_attrs().items()]
+                    )
+
                 if errors_on_separate_row and bf_errors:
                     output.append(error_row % force_text(bf_errors))
 
